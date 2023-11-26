@@ -55,7 +55,7 @@ int main()
     std::cin >> num;
 
     /* Solution 1 */
-    const bool isDividable = ((num % 5 == 0) && (num % 11 == 0));
+    const bool isDividable = (num % 5 == 0) && (num % 11 == 0);
     std::cout << "\nNumber " << num << " is dividable by 5 and 11 simultaneously: "
               << std::boolalpha << isDividable << '.' << std::endl;
     
