@@ -8,8 +8,9 @@ void determineNumberSign(int inputs)
     int positives = 0;
     int zeroes = 0;
     int negatives = 0;
-    for (int i = 0, number = 0; i < inputs; ++i)
+    for (int i = 0; i < inputs; ++i)
     {
+        int number;
         std::cout << "Enter number: ";
         std::cin >> number;
         if (number > 0)

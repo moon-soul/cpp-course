@@ -4,8 +4,8 @@
 
 int factorialLoop(int count)
 {
-    int factorial = 1; // 0!; i = 0
-    for (int i = 1; i <= count; ++i)
+    int factorial = 1; // both 0! and 1!
+    for (int i = 2; i <= count; ++i)
     {
         factorial *= i;
     }
