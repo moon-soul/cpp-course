@@ -26,7 +26,6 @@ void printArray(const int numbers[], int size)
 
 void translateArray(int numbers[], int size)
 {
-    std::cout << "\nTranslating array...\n";
     for (int i = 0; i < size; ++i)
     {
         if (numbers[i] > 0)

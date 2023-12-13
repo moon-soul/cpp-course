@@ -11,6 +11,7 @@ int main()
     int arr[arrSize] = {};
     fillArray(arr, arrSize);
     printArray(arr, arrSize);
+    std::cout << "\nTranslating array...\n";
     translateArray(arr, arrSize);
     printArray(arr, arrSize);
 
