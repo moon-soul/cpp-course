@@ -11,7 +11,7 @@ enum class SortingDirection
     ByColumns
 };
 
-void printArray(int* arr, std::size_t size)
+void printArray(const int* arr, std::size_t size)
 {
     std::cout << '\n';
     for (std::size_t i = 0; i < size; ++i)
@@ -42,7 +42,7 @@ void bubbleSort(int* arr, std::size_t size)
     }
 }
 
-void print2dArray(int arr[ROWS][COLS])
+void print2dArray(const int arr[ROWS][COLS])
 {
     std::cout << '\n';
     for (std::size_t i = 0; i < ROWS; ++i)
@@ -116,7 +116,8 @@ int main()
     print2dArray(arr2);
 
     /* Task 3 */
-    // ROWS * log2(COLUMNS) =~ nlogn = O(n)
+    // Time complexity: ROWS * log2(COLUMNS) =~ O(n log(n))
+    // Space complexity: O(1)
 
     return 0;
 }
