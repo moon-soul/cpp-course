@@ -2,7 +2,6 @@
 #include <iomanip>
 
 #include "arr.hpp"
-#include "sorting_direction.hpp"
 
 const int ROWS = 4;
 const int COLS = 6;

@@ -2,8 +2,6 @@
 
 #include <iostream>
 
-#include "sorting_direction.hpp"
-
 void printArray(const int* arr, int size)
 {
     std::cout << "\nArray:";
@@ -13,22 +11,26 @@ void printArray(const int* arr, int size)
     }
 }
 
-bool compare(int a, int b, SortingDirection direction)
+bool isSorted(const int* arr, int size, SortingDirection direction)
 {
     if (direction == SortingDirection::Descending)
     {
-        return a > b;
-    }
-    return a < b;
-}
-
-bool isSorted(const int* arr, int size, SortingDirection direction)
-{
-    for (int i = 1; i < size; ++i)
-    {
-        if (!compare(arr[i - 1], arr[i], direction))
+        for (int i = 1; i < size; ++i)
         {
-            return false;
+            if (arr[i - 1] < arr[i])
+            {
+                return false;
+            }
+        }
+    }
+    else
+    {
+        for (int i = 1; i < size; ++i)
+        {
+            if (arr[i - 1] > arr[i])
+            {
+                return false;
+            }
         }
     }
     return true;
