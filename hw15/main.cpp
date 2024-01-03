@@ -4,13 +4,15 @@
 struct Student
 {
     const char* name;
-    int marks[4];
+    static const size_t marksCount = 4;
+    int marks[marksCount];
 };
 
 void printStudent(const Student* student)
 {
     std::cout << "\nStudent: " << student->name << "\nMarks:";
-    for (size_t i = 0; i < 4; ++i)
+    const size_t marksCount = student->marksCount;
+    for (size_t i = 0; i < marksCount; ++i)
     {
         std::cout << ' ' << student->marks[i];
     }
@@ -19,12 +21,13 @@ void printStudent(const Student* student)
 
 inline float averageMark(const Student* student)
 {
-    int markSum = 0;
-    for (size_t i = 0; i < 4; ++i)
+    float markSum = 0;
+    const size_t marksCount = student->marksCount;
+    for (size_t i = 0; i < marksCount; ++i)
     {
         markSum += student->marks[i];
     }
-    return markSum / 4.0f;
+    return markSum / marksCount;
 }
 
 void sortOnAvgMark(const Student** students, size_t studentsCount)
@@ -38,8 +41,18 @@ void sortOnAvgMark(const Student** students, size_t studentsCount)
 
 const Student* bestStudent(const Student** students, size_t studentsCount)
 {
-    sortOnAvgMark(students, studentsCount);
-    return *students;
+    const Student* bestStudent = *students;
+    float bestAverageMark = averageMark(bestStudent);
+    for (size_t i = 1; i < studentsCount; ++i)
+    {
+        const float currentAverageMark = averageMark(students[i]);
+        if (currentAverageMark > bestAverageMark)
+        {
+            bestStudent = students[i];
+            bestAverageMark = currentAverageMark;
+        }
+    }
+    return bestStudent;
 }
 
 size_t countStudentsAboveAvgVal(const Student** students, size_t studentsCount, uint16_t avgPercent, uint16_t maxMark)
