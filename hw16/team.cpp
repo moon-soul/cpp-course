@@ -8,6 +8,10 @@ Team::Team(const char* name) : name_(name)
 
 bool Team::addPlayer(Player* player)
 {
+    if (player == nullptr)
+    {
+        return false;
+    }
     const auto result = players_.insert(player);
     if (result.second)
     {
