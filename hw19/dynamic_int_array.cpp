@@ -1,5 +1,6 @@
 #include "dynamic_int_array.hpp"
 
+#include <algorithm>
 #include <cassert>
 
 DynamicIntArray::DynamicIntArray()
@@ -16,9 +17,9 @@ DynamicIntArray::DynamicIntArray(const DynamicIntArray& other)
     : size_(other.size_),
       arr_(size_ > 0 ? new int[size_] : nullptr)
 {
-    for (size_t i = 0; i < size_; ++i)
+    if (not other.isEmpty())
     {
-        arr_[i] = other.arr_[i];
+        std::copy(other.arr_, other.arr_ + other.size_, arr_);
     }
 }
 
@@ -41,9 +42,9 @@ DynamicIntArray& DynamicIntArray::operator=(const DynamicIntArray& other)
         size_ = other.size_;
         arr_ = size_ > 0 ? new int[size_] : nullptr;
     }
-    for (size_t i = 0; i < size_; ++i)
+    if (not other.isEmpty())
     {
-        arr_[i] = other.arr_[i];
+        std::copy(other.arr_, other.arr_ + other.size_, arr_);
     }
     return *this;
 }
@@ -66,12 +67,22 @@ size_t DynamicIntArray::getSize() const
 
 void DynamicIntArray::setSize(size_t newSize)
 {
+    if (size_ == newSize)
+    {
+        return;
+    }
+    int* newArr = newSize > 0 ? new int[newSize]() : nullptr;
     if (arr_ != nullptr)
     {
+        if (newArr != nullptr)
+        {
+            const size_t limiter = size_ < newSize ? size_ : newSize;
+            std::copy(arr_, arr_ + limiter, newArr);
+        }
         delete[] arr_;
     }
     size_ = newSize;
-    arr_ = size_ > 0 ? new int[size_]() : nullptr;
+    arr_ = newArr;
 }
 
 void DynamicIntArray::clear()

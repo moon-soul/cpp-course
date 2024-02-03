@@ -41,20 +41,19 @@ int main()
     arr2[1] = 20;
     assert(arr2[1] == 20);
 
-    /* Clear array */
-    arr2.clear();
-    assert(arr2.isEmpty() == true);
+    /* Set size shrink */
+    constexpr size_t shrinkSize = 1;
+    arr2.setSize(shrinkSize);
+    assert(arr2.getSize() == shrinkSize);
+    assert(arr2[0] == 10);
 
-    /* Set size */
-    const size_t size = 3;
-    arr2.setSize(size);
-    assert(arr2.getSize() == size);
-
-    /* Default values of resizing */
-    for (size_t i = 0; i < arr2.getSize(); ++i)
-    {
-        assert(arr2[i] == 0);
-    }
+    /* Set size expand */
+    constexpr size_t expandSize = 3;
+    arr2.setSize(expandSize);
+    assert(arr2.getSize() == expandSize);
+    assert(arr2[0] == 10);
+    assert(arr2[1] == 0);
+    assert(arr2[2] == 0);
 
     /* C-tor param size equals 0 */
     DynamicIntArray arr3{0};
@@ -79,8 +78,12 @@ int main()
         assert(arr4[i] == arr3[i]);
     }
 
-    /* Set size to 0 */
-    arr4.setSize(0);
+    /* Set size 0 */
+    arr3.setSize(0);
+    assert(arr3.isEmpty() == true);
+
+    /* Clear array */
+    arr4.clear();
     assert(arr4.isEmpty() == true);
 
     return 0;
