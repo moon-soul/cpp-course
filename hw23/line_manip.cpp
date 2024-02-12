@@ -21,7 +21,7 @@ size_t uniqueWordsCount(const std::string& line)
     return words.size();
 }
 
-std::string mostOccurredWords(const std::string& line)
+std::string mostOccurredWord(const std::string& line)
 {
     if (line.empty())
     {
@@ -35,19 +35,14 @@ std::string mostOccurredWords(const std::string& line)
         ++wordsCount[buffStr];
     }
     std::string result;
-    size_t maxCount = 1;
+    size_t maxCount = 0;
     for (const auto& [word, count] : wordsCount)
     {
-        if (count < maxCount)
-        {
-            continue;
-        }
         if (count > maxCount)
         {
             maxCount = count;
-            result.erase();
+            result = word;
         }
-        result.append(word);
     }
     return result;
 }

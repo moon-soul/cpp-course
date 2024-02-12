@@ -12,7 +12,7 @@ int main()
     assert(uniqueWordsCount(str) == 3);
 
     /* Task 2 */
-    std::cout << "Most occurred words: " << mostOccurredWords(str) << '\n';
+    std::cout << "Most occurred word: " << mostOccurredWord(str) << '\n';
 
     /* Task 3 */
     const std::string balanced = "{ [()][ ] }()";
