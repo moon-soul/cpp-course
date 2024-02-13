@@ -1,0 +1,4 @@
+Crazy Joe;4;Human
+Vampire;3;Undead
+Michael Jackson;10;Zombie
+Shiva Destructor;20;God

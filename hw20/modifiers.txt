@@ -1,0 +1,13 @@
+Basic;1
+Basic;1
+Basic;2
+Basic;2
+Basic;3
+Basic;3
+Basic;4
+Basic;4
+Double
+Double
+Halve;Undead
+Halve;God
+Lucky;5
