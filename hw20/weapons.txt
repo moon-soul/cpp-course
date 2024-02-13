@@ -1,0 +1,5 @@
+Common;Sword;5
+Undead;Stinky Knife;3
+Holy;Priest Axe;4
+Legendary;Excalibur;5
+?;Stick;1
