@@ -1,6 +1,6 @@
-#include "dynamic_array.hpp"
-
 #include <cassert>
+
+#include "dynamic_array.hpp"
 
 int main()
 {

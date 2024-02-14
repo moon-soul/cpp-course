@@ -29,7 +29,7 @@ public:
     void pop_back();
 
 private:
-    inline void reallocate(size_t newCapacity, size_t endPos, bool fillWithNulls = false);
+    inline void reallocate(size_t newCapacity, size_t endPos, bool fillWithDefaults = false);
 
     size_t size_ = 0;
     size_t capacity_ = 1;
@@ -179,7 +179,7 @@ void DynamicArray<Type>::setSize(size_t newSize)
     {
         for (size_t i = size_; i < newSize; ++i)
         {
-            arr_[i] = 0;
+            arr_[i] = Type();
         }
     }
     size_ = newSize;
@@ -213,10 +213,10 @@ void DynamicArray<Type>::pop_back()
 }
 
 template<class Type>
-inline void DynamicArray<Type>::reallocate(size_t newCapacity, size_t endPos, bool fillWithNulls)
+inline void DynamicArray<Type>::reallocate(size_t newCapacity, size_t endPos, bool fillWithDefaults)
 {
     capacity_ = newCapacity;
-    Type* newArr = fillWithNulls ? new Type[capacity_]() : new Type[capacity_];
+    Type* newArr = fillWithDefaults ? new Type[capacity_]() : new Type[capacity_];
     if (endPos > 0)
     {
         std::copy(arr_, arr_ + endPos, newArr);
