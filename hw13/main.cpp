@@ -1,3 +1,5 @@
+#include <cstdlib>
+#include <ctime>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -24,6 +26,8 @@ int main()
         return -1;
     }
     std::cout << "Successful init of words database from file \"" << storageFile << "\"\n";
+
+    std::srand(std::time(0));
 
     /* Game loop */
     while (true)
