@@ -82,7 +82,6 @@ bool Wordle::saveWordDay(const std::string& word, const std::string& filename)
 
 size_t Wordle::randWordPosInRange(size_t range)
 {
-    std::srand(std::time(0));
     return std::rand() % range; // [0; range)
 }
 
