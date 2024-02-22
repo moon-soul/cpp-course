@@ -5,7 +5,7 @@
 #include "modifier.hpp"
 #include "monster.hpp"
 #include "munchkin.hpp"
-#include "runaway.hpp"
+#include "defeat.hpp"
 #include "victory.hpp"
 #include "weapon.hpp"
 
@@ -53,7 +53,6 @@ void Fight::start()
 
 void Fight::victoryFlow()
 {
-    munchkin_->updateLevelBy(1);
     Victory* policy = monster_->getVictoryPolicy();
     if (policy != nullptr)
     {
@@ -69,7 +68,7 @@ void Fight::runawayFlow()
 
 void Fight::defeatFlow()
 {
-    Runaway* policy = monster_->getRunawayPolicy();
+    Defeat* policy = monster_->getDefeatPolicy();
     if (policy != nullptr)
     {
         policy->apply(munchkin_);

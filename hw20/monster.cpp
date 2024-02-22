@@ -26,9 +26,9 @@ MonsterTribe Monster::getTribe() const
     return tribe_;
 }
 
-Runaway* Monster::getRunawayPolicy() const
+Defeat* Monster::getDefeatPolicy() const
 {
-    return runawayPolicy_;
+    return defeatPolicy_;
 }
 
 Victory* Monster::getVictoryPolicy() const
@@ -36,9 +36,9 @@ Victory* Monster::getVictoryPolicy() const
     return victoryPolicy_;
 }
 
-void Monster::setRunawayPolicy(Runaway* runawayPolicy)
+void Monster::setDefeatPolicy(Defeat* defeatPolicy)
 {
-    runawayPolicy_ = runawayPolicy;
+    defeatPolicy_ = defeatPolicy;
 }
 
 void Monster::setVictoryPolicy(Victory* victoryPolicy)

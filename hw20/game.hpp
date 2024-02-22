@@ -11,7 +11,7 @@
 class Weapon;
 class Modifier;
 class Monster;
-class Runaway;
+class Defeat;
 class Victory;
 
 class Game
@@ -27,12 +27,12 @@ public:
 
 private:
     void generateMunchkinInitialCards(size_t initialWeapons, size_t initialModifiers);
-    const std::shared_ptr<Monster>& generateMonsterWithRandomPolicies();
+    const std::shared_ptr<Monster> generateMonsterWithRandomPolicies();
 
     Munchkin munchkin_;
     Deck<Weapon> weaponsDeck_;
     Deck<Modifier> modifiersDeck_;
     Deck<Monster> monstersDeck_;
-    std::vector<Runaway*> runawayPolicies_;
+    std::vector<Defeat*> defeatPolicies_;
     std::vector<Victory*> victoryPolicies_;
 };

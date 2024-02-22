@@ -13,7 +13,7 @@
 #include "modifier.hpp"
 #include "monster.hpp"
 #include "munchkin.hpp"
-#include "runaway.hpp"
+#include "defeat.hpp"
 #include "utility.hpp"
 #include "victory.hpp"
 #include "weapon.hpp"
@@ -153,7 +153,7 @@ void printMunchkinRunaway(Munchkin* munchkin, const std::shared_ptr<Monster>& mo
 void printMunchkinLost(Munchkin* munchkin, const std::shared_ptr<Monster>& monster)
 {
     std::cout << "\nMunchkin [" << munchkin->getName() << "] has just lost the game to [" << monster->getName() << "]"
-              << "\nNegative effect: " << monster->getRunawayPolicy()->getInfo();
+              << "\nNegative effect: " << monster->getDefeatPolicy()->getInfo();
 }
 
 int selectModifierFromHand(int handSize)
@@ -184,11 +184,11 @@ Game::Game(const std::string& munchkinName,
       modifiersDeck_(modifiersFilePath, ModifierDelegator{}),
       monstersDeck_(monstersFilePath, MonsterDelegator{})
 {
-    runawayPolicies_.reserve(4);
-    runawayPolicies_.emplace_back(new LevelDowngrade(2));
-    runawayPolicies_.emplace_back(new LevelDowngradeIf(3, 5));
-    runawayPolicies_.emplace_back(new WeaponStrongestRemoval());
-    runawayPolicies_.emplace_back(new ModifierFromHandRemoval());
+    defeatPolicies_.reserve(4);
+    defeatPolicies_.emplace_back(new LevelDowngrade(2));
+    defeatPolicies_.emplace_back(new LevelDowngradeIf(3, 5));
+    defeatPolicies_.emplace_back(new WeaponStrongestRemoval());
+    defeatPolicies_.emplace_back(new ModifierFromHandRemoval());
     victoryPolicies_.reserve(4);
     victoryPolicies_.emplace_back(new LevelIncrease(2));
     victoryPolicies_.emplace_back(new LevelIncrease(4));
@@ -198,7 +198,7 @@ Game::Game(const std::string& munchkinName,
 
 Game::~Game()
 {
-    for (Runaway* policy : runawayPolicies_)
+    for (Defeat* policy : defeatPolicies_)
     {
         delete policy;
     }
@@ -284,12 +284,12 @@ void Game::generateMunchkinInitialCards(size_t initialWeapons, size_t initialMod
     }
 }
 
-const std::shared_ptr<Monster>& Game::generateMonsterWithRandomPolicies()
+const std::shared_ptr<Monster> Game::generateMonsterWithRandomPolicies()
 {
-    const size_t randomRunawayPos = std::rand() % runawayPolicies_.size();
+    const size_t randomDefeatPos = std::rand() % defeatPolicies_.size();
     const size_t randomVictoryPos = std::rand() % victoryPolicies_.size();
-    auto& monster = monstersDeck_.getUniqueEntry();
-    monster->setRunawayPolicy(runawayPolicies_[randomRunawayPos]);
+    const auto monster = monstersDeck_.getUniqueEntry();
+    monster->setDefeatPolicy(defeatPolicies_[randomDefeatPos]);
     monster->setVictoryPolicy(victoryPolicies_[randomVictoryPos]);
     return monster;
 }
