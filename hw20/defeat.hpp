@@ -4,16 +4,16 @@
 
 class Munchkin;
 
-class Runaway
+class Defeat
 {
 public:
-    virtual ~Runaway() = default;
+    virtual ~Defeat() = default;
 
     virtual std::string getInfo() const = 0;
     virtual void apply(Munchkin* munchkin) = 0;
 };
 
-class LevelDowngrade : public Runaway
+class LevelDowngrade : public Defeat
 {
 public:
     LevelDowngrade(int level = 1);
@@ -37,14 +37,14 @@ private:
     int minimalMunchkinLevelToApply_;
 };
 
-class WeaponStrongestRemoval : public Runaway
+class WeaponStrongestRemoval : public Defeat
 {
 public:
     std::string getInfo() const override final;
     void apply(Munchkin* munchkin) override final;
 };
 
-class ModifierFromHandRemoval : public Runaway
+class ModifierFromHandRemoval : public Defeat
 {
 public:
     std::string getInfo() const override final;

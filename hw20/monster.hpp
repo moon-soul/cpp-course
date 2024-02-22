@@ -5,7 +5,7 @@
 
 #include "monster_tribe.hpp"
 
-class Runaway;
+class Defeat;
 class Victory;
 
 class Monster
@@ -16,17 +16,17 @@ public:
     const std::string& getName() const;
     int getLevel() const;
     MonsterTribe getTribe() const;
-    Runaway* getRunawayPolicy() const;
+    Defeat* getDefeatPolicy() const;
     Victory* getVictoryPolicy() const;
 
-    void setRunawayPolicy(Runaway* runawayPolicy);
+    void setDefeatPolicy(Defeat* defeatPolicy);
     void setVictoryPolicy(Victory* victoryPolicy);
 
 private:
     std::string name_;
     int level_;
     MonsterTribe tribe_;
-    Runaway* runawayPolicy_ = nullptr;
+    Defeat* defeatPolicy_ = nullptr;
     Victory* victoryPolicy_ = nullptr;
 };
 
