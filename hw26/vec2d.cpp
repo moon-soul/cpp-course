@@ -6,19 +6,17 @@
 
 size_t Vec2d::instanceCount_ = 0;
 
+Vec2d::Vec2d(float x, float y) : x_(x), y_(y)
+{
+    ++instanceCount_;
+}
+
 Vec2d::Vec2d()
 {
-    ++instanceCount_;
 }
 
-Vec2d::Vec2d(float x1, float y1) : x1_(x1), y1_(y1)
+Vec2d::Vec2d(float x0, float y0, float x1, float y1) : Vec2d(x1 - x0, y1 - y0)
 {
-    ++instanceCount_;
-}
-
-Vec2d::Vec2d(float x0, float y0, float x1, float y1) : x0_(x0), y0_(y0), x1_(x1), y1_(y1)
-{
-    ++instanceCount_;
 }
 
 Vec2d::~Vec2d()
@@ -28,32 +26,32 @@ Vec2d::~Vec2d()
 
 bool Vec2d::operator==(const Vec2d& other) const
 {
-    return x0_ == other.x0_ and y0_ == other.y0_ and x1_ == other.x1_ and y1_ == other.y1_;
+    return (x_ == other.x_) and (y_ == other.y_);
 }
 
 Vec2d Vec2d::operator+(const Vec2d& other) const
 {
-    return Vec2d(x0_ + other.x0_, y0_ + other.y0_, x1_ + other.x1_, y1_ + other.y1_);
+    return Vec2d(x_ + other.x_, y_ + other.y_);
 }
 
 Vec2d Vec2d::operator-(const Vec2d& other) const
 {
-    return Vec2d(x0_ - other.x0_, y0_ - other.y0_, x1_ - other.x1_, y1_ - other.y1_);
+    return Vec2d(x_ - other.x_, y_ - other.y_);
 }
 
 float Vec2d::magnitude() const
 {
-    return std::sqrt((x1_ - x0_) * (x1_ - x0_) + (y1_ - y0_) * (y1_ - y0_));
+    return std::sqrt(x_ * x_ + y_ * y_);
 }
 
 float Vec2d::dotProduct(const Vec2d& other) const
 {
-    return (x1_ - x0_) * (other.x1_ - other.x0_) + (y1_ - y0_) * (other.y1_ - other.y0_);
+    return (x_ * other.x_) + (y_ * other.y_);
 }
 
 Vec2d Vec2d::negate() const
 {
-    return Vec2d(x0_ - x1_, y0_ - y1_);
+    return Vec2d(-x_, -y_);
 }
 
 Vec2d::RelativeState Vec2d::getRelativeState(const Vec2d& other) const
@@ -66,17 +64,17 @@ Vec2d::RelativeState Vec2d::getRelativeState(const Vec2d& other) const
     const float magnitudesProduct = this->magnitude() * other.magnitude();
     if (dotProduct > std::numeric_limits<float>::epsilon())
     {
-        if (std::abs(magnitudesProduct - dotProduct) <= std::numeric_limits<float>::epsilon())
+        if (std::fabs(magnitudesProduct - dotProduct) < std::numeric_limits<float>::epsilon())
         {
             return Vec2d::RelativeState::CoDirected;
         }
         return Vec2d::RelativeState::AcuteAngle;
     }
-    else if (std::abs(dotProduct) <= std::numeric_limits<float>::epsilon())
+    if (std::fabs(dotProduct) < std::numeric_limits<float>::epsilon())
     {
         return Vec2d::RelativeState::RightAngle;
     }
-    else if (std::abs(magnitudesProduct + dotProduct) <= std::numeric_limits<float>::epsilon())
+    if (std::fabs(magnitudesProduct + dotProduct) < std::numeric_limits<float>::epsilon())
     {
         return Vec2d::RelativeState::OppositeDirected;
     }
@@ -85,10 +83,8 @@ Vec2d::RelativeState Vec2d::getRelativeState(const Vec2d& other) const
 
 void Vec2d::scale(float factorX, float factorY)
 {
-    x0_ *= factorX;
-    y0_ *= factorY;
-    x1_ *= factorX;
-    y1_ *= factorY;
+    x_ *= factorX;
+    y_ *= factorY;
 }
 
 Vec2d& Vec2d::operator=(const Vec2d& other)
@@ -97,23 +93,16 @@ Vec2d& Vec2d::operator=(const Vec2d& other)
     {
         return *this;
     }
-    x0_ = other.x0_;
-    y0_ = other.y0_;
-    x1_ = other.x1_;
-    y1_ = other.y1_;
+    x_ = other.x_;
+    y_ = other.y_;
     return *this;
 }
 
 float& Vec2d::operator[](size_t i)
 {
-    assert(i < 4);
-    switch (i)
-    {
-    case 0: return x0_;
-    case 1: return y0_;
-    case 2: return x1_;
-    default: return y1_;
-    }
+    assert(i < 2);
+    if (i == 0) return x_;
+    return y_;
 }
 
 size_t Vec2d::getInstanceCount()
@@ -123,22 +112,22 @@ size_t Vec2d::getInstanceCount()
 
 Vec2d operator+(const Vec2d& lhs, const Vec2d& rhs)
 {
-    return Vec2d(lhs.x0_ + rhs.x0_, lhs.y0_ + rhs.y0_, lhs.x1_ + rhs.x1_, lhs.y1_ + rhs.y1_);
+    return Vec2d(lhs.x_ + rhs.x_, lhs.y_ + rhs.y_);
 }
 
 Vec2d operator-(const Vec2d& lhs, const Vec2d& rhs)
 {
-    return Vec2d(lhs.x0_ - rhs.x0_, lhs.y0_ - rhs.y0_, lhs.x1_ - rhs.x1_, lhs.y1_ - rhs.y1_);
+    return Vec2d(lhs.x_ - rhs.x_, lhs.y_ - rhs.y_);
 }
 
 std::ostream& operator<<(std::ostream& os, const Vec2d& vec2d)
 {
-    os << "[{" << vec2d.x0_ << "; " << vec2d.y0_ << "}, {" << vec2d.x1_ << "; " << vec2d.y1_ << "}]\n";
+    os << "[" << vec2d.x_ << "; " << vec2d.y_ << "]\n";
     return os;
 }
 
 std::istream& operator>>(std::istream& is, Vec2d& vec2d)
 {
-    is >> vec2d.x0_ >> vec2d.y0_ >> vec2d.x1_ >> vec2d.y1_;
+    is >> vec2d.x_ >> vec2d.y_;
     return is;
 }
