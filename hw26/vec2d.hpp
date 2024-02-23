@@ -16,8 +16,8 @@ public:
         ObtuseAngle,
     };
 
+    Vec2d(float x, float y);
     Vec2d();
-    Vec2d(float x1, float y1);
     Vec2d(float x0, float y0, float x1, float y1);
     ~Vec2d();
 
@@ -40,10 +40,8 @@ public:
     friend std::istream& operator>>(std::istream& is, Vec2d& vec2d);
 
 private:
-    float x0_ = 0.f;
-    float y0_ = 0.f;
-    float x1_ = 0.f;
-    float y1_ = 0.f;
+    float x_ = 0.f;
+    float y_ = 0.f;
     static size_t instanceCount_;
 };
 
