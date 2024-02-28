@@ -6,11 +6,11 @@
 #include <vector>
 
 template<class Type>
-Type parallelVectorSum(const std::vector<Type>& vec, size_t threadsNum = 2)
+int64_t parallelVectorSum(const std::vector<Type>& vec, size_t threadsNum = 2)
 {
     assert(threadsNum > 0);
 
-    const auto worker = [](const std::vector<Type>& chunk, size_t start, size_t end, Type& sum)
+    const auto worker = [](const std::vector<Type>& chunk, size_t start, size_t end, int64_t& sum)
     {
         for (auto pos = chunk.cbegin() + start; pos != chunk.cbegin() + end; ++pos)
         {
@@ -18,7 +18,7 @@ Type parallelVectorSum(const std::vector<Type>& vec, size_t threadsNum = 2)
         }
     };
 
-    Type result = Type();
+    int64_t result = Type{};
 
     if (threadsNum == 1)
     {
@@ -29,7 +29,7 @@ Type parallelVectorSum(const std::vector<Type>& vec, size_t threadsNum = 2)
     std::vector<std::thread> threads;
     threads.reserve(threadsNum);
 
-    std::vector<Type> partialSums;
+    std::vector<int64_t> partialSums;
     partialSums.resize(threadsNum);
 
     const size_t chunkSize = vec.size() / threadsNum;
@@ -46,7 +46,7 @@ Type parallelVectorSum(const std::vector<Type>& vec, size_t threadsNum = 2)
         thread.join();
     }
 
-    for (Type sum : partialSums)
+    for (int64_t sum : partialSums)
     {
         result += sum;
     }
