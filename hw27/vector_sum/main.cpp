@@ -22,11 +22,8 @@ int main()
     std::vector<size_t> vec5;
     vec5.resize(100'000'000, 1);
 
-    std::vector<size_t> vec6;
-    vec6.resize(1'000'000'000, 1);
-
     const auto begin = std::chrono::high_resolution_clock::now();
-    const auto result = parallelVectorSum(vec6, 2 * std::thread::hardware_concurrency());
+    const auto result = parallelVectorSum(vec5, std::thread::hardware_concurrency() * 2);
     const auto end = std::chrono::high_resolution_clock::now();
 
     const auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - begin);
