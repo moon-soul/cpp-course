@@ -12,6 +12,4 @@ public:
            float period,
            float angle,
            std::shared_ptr<CelestialBody> attractor);
-
-    void draw(sf::RenderWindow& window) override final;
 };

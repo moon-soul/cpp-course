@@ -10,10 +10,8 @@ public:
         unsigned int modeWidth,
         unsigned int modeHeight,
         float radius,
-        float distanceFromSun,
+        float distanceFromAttractor,
         float period,
         float angle,
         std::shared_ptr<CelestialBody> attractor);
-
-    void updatePosition(float deltaTime, float simulationSpeed) override final;
 };

@@ -8,7 +8,7 @@ public:
     Moon(const std::string& textureFilePath,
          const std::string& name,
          float radius,
-         float distanceFromSun,
+         float distanceFromPlanet,
          float period,
          float angle,
          std::shared_ptr<CelestialBody> attractor);

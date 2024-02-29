@@ -10,12 +10,13 @@ public:
     CelestialBody(const std::string& textureFilePath,
                   const std::string& name,
                   float radius,
-                  float distanceFromSun,
+                  float distanceFromAttractor,
                   float period,
                   float angle,
                   std::shared_ptr<CelestialBody> attractor);
 
     float getSize() const;
+    void draw(sf::RenderWindow& window) override;
     void updatePosition(float deltaTime, float simulationSpeed) override;
 
 protected:

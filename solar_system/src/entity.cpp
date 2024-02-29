@@ -36,6 +36,11 @@ const sf::Sprite& Entity::getSprite() const
     return sprite_;
 }
 
+float Entity::getScale() const
+{
+    return sprite_.getScale().x;
+}
+
 void Entity::setPosition(float x, float y)
 {
     sprite_.setPosition(x, y);

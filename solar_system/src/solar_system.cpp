@@ -3,6 +3,7 @@
 #include <algorithm>
 
 #include "constants.hpp"
+#include "moon.hpp"
 #include "planet.hpp"
 #include "sun.hpp"
 
@@ -27,6 +28,7 @@ SolarSystem::SolarSystem(unsigned int modeWidth, unsigned int modeHeight, const 
     const auto SATURN = std::make_shared<Planet>(FilePath::Assets::SATURN, "SATURN", 60268.f, 1426.73f, 29.5f, 0.f, SUN);
     const auto URANUS = std::make_shared<Planet>(FilePath::Assets::URANUS, "URANUS", 25559.f, 2870.97f, 84.f, 0.f, SUN);
     const auto NEPTUNE = std::make_shared<Planet>(FilePath::Assets::NEPTUNE, "NEPTUNE", 24764.f, 4498.25f, 164.8f, 0.f, SUN);
+    const auto MOON = std::make_shared<Moon>(FilePath::Assets::MOON, "MOON", 1737.f, 0.3844f, 0.0748f, 0.f, EARTH);
 
     solarSystemObjects_.emplace_back(SUN);
     solarSystemObjects_.emplace_back(MERCURY);
@@ -37,6 +39,7 @@ SolarSystem::SolarSystem(unsigned int modeWidth, unsigned int modeHeight, const 
     solarSystemObjects_.emplace_back(SATURN);
     solarSystemObjects_.emplace_back(URANUS);
     solarSystemObjects_.emplace_back(NEPTUNE);
+    solarSystemObjects_.emplace_back(MOON);
 }
 
 void SolarSystem::run()
