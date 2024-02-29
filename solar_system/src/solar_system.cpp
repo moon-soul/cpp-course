@@ -3,11 +3,12 @@
 #include <algorithm>
 
 #include "constants.hpp"
+#include "planet.hpp"
+#include "sun.hpp"
 
 SolarSystem::SolarSystem(unsigned int modeWidth, unsigned int modeHeight, const std::string& windowName)
     : window_(sf::VideoMode(modeWidth, modeHeight), windowName),
-      camera_(window_),
-      sun_(std::make_shared<Sun>(FilePath::Assets::SUN, "SUN", modeWidth, modeHeight, 695500.f, 0.f, 0.f, 0.f))
+      camera_(window_)
 {
     if (not backgroundTexture_.loadFromFile(FilePath::Assets::BACKGROUND))
     {
@@ -17,14 +18,25 @@ SolarSystem::SolarSystem(unsigned int modeWidth, unsigned int modeHeight, const 
     const auto& windowSize = window_.getSize();
     background_.setTextureRect(sf::IntRect(0, 0, windowSize.x, windowSize.y));
 
-    solarSystemObjects_.emplace_back(std::make_shared<Planet>(FilePath::Assets::MERCURY, "MERCURY", 2440.f, 57.91f, 0.2f, 0.f, sun_));
-    solarSystemObjects_.emplace_back(std::make_shared<Planet>(FilePath::Assets::VENUS, "VENUS", 6052.f, 108.21f, 0.6f, 0.f, sun_));
-    solarSystemObjects_.emplace_back(std::make_shared<Planet>(FilePath::Assets::EARTH, "EARTH", 6378.f, 149.6f, 1.f, 0.f, sun_));
-    solarSystemObjects_.emplace_back(std::make_shared<Planet>(FilePath::Assets::MARS, "MARS", 3397.f, 227.94f, 1.9f, 0.f, sun_));
-    solarSystemObjects_.emplace_back(std::make_shared<Planet>(FilePath::Assets::JUPITER, "JUPITER", 71492.f, 778.41f, 11.9f, 0.f, sun_));
-    solarSystemObjects_.emplace_back(std::make_shared<Planet>(FilePath::Assets::SATURN, "SATURN", 60268.f, 1426.73f, 29.5f, 0.f, sun_));
-    solarSystemObjects_.emplace_back(std::make_shared<Planet>(FilePath::Assets::URANUS, "URANUS", 25559.f, 2870.97f, 84.f, 0.f, sun_));
-    solarSystemObjects_.emplace_back(std::make_shared<Planet>(FilePath::Assets::NEPTUNE, "NEPTUNE", 24764.f, 4498.25f, 164.8f, 0.f, sun_));
+    const auto SUN = std::make_shared<Sun>(FilePath::Assets::SUN, "SUN", modeWidth, modeHeight, 695500.f, 0.f, 0.f, 0.f, nullptr);
+    const auto MERCURY = std::make_shared<Planet>(FilePath::Assets::MERCURY, "MERCURY", 2440.f, 57.91f, 0.2f, 0.f, SUN);
+    const auto VENUS = std::make_shared<Planet>(FilePath::Assets::VENUS, "VENUS", 6052.f, 108.21f, 0.6f, 0.f, SUN);
+    const auto EARTH = std::make_shared<Planet>(FilePath::Assets::EARTH, "EARTH", 6378.f, 149.6f, 1.f, 0.f, SUN);
+    const auto MARS = std::make_shared<Planet>(FilePath::Assets::MARS, "MARS", 3397.f, 227.94f, 1.9f, 0.f, SUN);
+    const auto JUPITER = std::make_shared<Planet>(FilePath::Assets::JUPITER, "JUPITER", 71492.f, 778.41f, 11.9f, 0.f, SUN);
+    const auto SATURN = std::make_shared<Planet>(FilePath::Assets::SATURN, "SATURN", 60268.f, 1426.73f, 29.5f, 0.f, SUN);
+    const auto URANUS = std::make_shared<Planet>(FilePath::Assets::URANUS, "URANUS", 25559.f, 2870.97f, 84.f, 0.f, SUN);
+    const auto NEPTUNE = std::make_shared<Planet>(FilePath::Assets::NEPTUNE, "NEPTUNE", 24764.f, 4498.25f, 164.8f, 0.f, SUN);
+
+    solarSystemObjects_.emplace_back(SUN);
+    solarSystemObjects_.emplace_back(MERCURY);
+    solarSystemObjects_.emplace_back(VENUS);
+    solarSystemObjects_.emplace_back(EARTH);
+    solarSystemObjects_.emplace_back(MARS);
+    solarSystemObjects_.emplace_back(JUPITER);
+    solarSystemObjects_.emplace_back(SATURN);
+    solarSystemObjects_.emplace_back(URANUS);
+    solarSystemObjects_.emplace_back(NEPTUNE);
 }
 
 void SolarSystem::run()
@@ -64,8 +76,7 @@ void SolarSystem::run()
             }
             else if (event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::C)
             {
-                camera_.transitionTo(sun_);
-                nextToFocusIndex_ = -1;
+                camera_.transitionTo(solarSystemObjects_[0]);
             }
             else if (event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::Q)
             {
@@ -85,7 +96,6 @@ void SolarSystem::run()
         window_.clear();
         camera_.applyView();
         window_.draw(background_);
-        sun_->draw(window_);
         for (auto& obj : solarSystemObjects_)
         {
             update(deltaTime);

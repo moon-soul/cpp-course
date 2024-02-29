@@ -12,7 +12,8 @@ public:
         float radius,
         float distanceFromSun,
         float period,
-        float angle);
+        float angle,
+        std::shared_ptr<CelestialBody> attractor);
 
     void updatePosition(float deltaTime, float simulationSpeed) override final;
 };

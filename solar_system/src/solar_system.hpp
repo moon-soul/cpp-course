@@ -1,11 +1,9 @@
 #pragma once
 
-#include <memory>
 #include <vector>
 
 #include "camera.hpp"
-#include "planet.hpp"
-#include "sun.hpp"
+#include "celestial_body.hpp"
 
 class SolarSystem
 {
@@ -23,10 +21,9 @@ private:
 
     sf::RenderWindow window_;
     Camera camera_;
-    std::shared_ptr<Sun> sun_;
     sf::Texture backgroundTexture_;
     sf::Sprite background_;
-    std::vector<std::shared_ptr<Planet>> solarSystemObjects_;
+    std::vector<std::shared_ptr<CelestialBody>> solarSystemObjects_;
     float simulationSpeed_ = 0.004f;
     bool isPaused_ = false;
     int nextToFocusIndex_ = -1;

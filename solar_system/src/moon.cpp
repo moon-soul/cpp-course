@@ -5,17 +5,14 @@ Moon::Moon(const std::string& textureFilePath,
            float radius,
            float distanceFromSun,
            float period,
-           float angle)
+           float angle,
+           std::shared_ptr<CelestialBody> attractor)
     : CelestialBody(textureFilePath,
                     name,
                     radius,
                     distanceFromSun,
                     period,
-                    angle)
+                    angle,
+                    attractor)
 {
-}
-
-void Moon::updatePosition(float deltaTime, float simulationSpeed)
-{
-    // TODO
 }

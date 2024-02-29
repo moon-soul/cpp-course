@@ -7,13 +7,15 @@ Sun::Sun(const std::string& textureFilePath,
          float radius,
          float distanceFromSun,
          float period,
-         float angle)
+         float angle,
+         std::shared_ptr<CelestialBody> attractor)
     : CelestialBody(textureFilePath,
                     name,
                     radius,
                     distanceFromSun,
                     period,
-                    angle)
+                    angle,
+                    attractor)
 {
     const auto& globalBounds = getGlobalBounds();
     const auto originX = (modeWidth - globalBounds.width) / 2;

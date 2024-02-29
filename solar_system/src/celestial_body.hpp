@@ -1,6 +1,6 @@
 #pragma once
 
-#include <vector>
+#include <memory>
 
 #include "entity.hpp"
 
@@ -12,10 +12,11 @@ public:
                   float radius,
                   float distanceFromSun,
                   float period,
-                  float angle);
+                  float angle,
+                  std::shared_ptr<CelestialBody> attractor);
 
     float getSize() const;
-    void updatePosition(float deltaTime, float simulationSpeed) override = 0;
+    void updatePosition(float deltaTime, float simulationSpeed) override;
 
 protected:
     std::string name_;
@@ -23,4 +24,5 @@ protected:
     float orbitRadius_; // km, millions
     float orbitPeriod_; // Earth years
     float currentOrbitAngle_; // degrees
+    std::shared_ptr<CelestialBody> attractor_;
 };

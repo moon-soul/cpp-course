@@ -1,7 +1,6 @@
 #include "planet.hpp"
 
-#include <cmath>
-#include <numbers>
+#include <algorithm>
 
 Planet::Planet(const std::string& textureFilePath,
                const std::string& name,
@@ -9,44 +8,25 @@ Planet::Planet(const std::string& textureFilePath,
                float distanceFromSun,
                float period,
                float angle,
-               std::shared_ptr<Sun> sun)
+               std::shared_ptr<CelestialBody> attractor)
     : CelestialBody(textureFilePath,
                     name,
                     radius,
                     distanceFromSun,
                     period,
-                    angle),
-      sun_(sun)
+                    angle,
+                    attractor)
 {
-    const auto sizeRatio = equatorialRadius_ / sun_->getSize();
+    const auto sizeRatio = equatorialRadius_ / attractor_->getSize();
     setScale(sizeRatio);
-}
-
-void Planet::updatePosition(float deltaTime, float simulationSpeed)
-{
-    constexpr auto circleDegrees = 360.f;
-    const auto orbitSpeed = circleDegrees / orbitPeriod_;
-    currentOrbitAngle_ += -orbitSpeed * deltaTime * simulationSpeed;
-    if (currentOrbitAngle_ > circleDegrees) currentOrbitAngle_ -= circleDegrees;
-
-    const auto radAngle = currentOrbitAngle_ * (std::numbers::pi_v<float> / (circleDegrees / 2));
-
-    const auto& sunCenter = sun_->getCenter();
-    const auto& globalBounds = getGlobalBounds();
-    const auto& sunGlobalBounds = sun_->getGlobalBounds();
-    const auto halfSunX = sunGlobalBounds.width / 2;
-    const auto halfSunY = sunGlobalBounds.height / 2;
-
-    setPosition(sunCenter.x - globalBounds.width / 2 + cos(radAngle) * (orbitRadius_ + halfSunX),
-                sunCenter.y - globalBounds.height / 2 + sin(radAngle) * (orbitRadius_ + halfSunY));
 }
 
 void Planet::draw(sf::RenderWindow& window)
 {
-    sf::CircleShape orbit(orbitRadius_ + sun_->getGlobalBounds().width / 2);
+    sf::CircleShape orbit(orbitRadius_ + attractor_->getGlobalBounds().width / 2);
     const auto numPoints = std::max(200, static_cast<int>(orbitRadius_ / 5));
     orbit.setPointCount(numPoints);
-    const auto& sunCenter = sun_->getCenter();
+    const auto& sunCenter = attractor_->getCenter();
     const auto& orbitGlobalBounds = orbit.getGlobalBounds();
     orbit.setPosition(sunCenter.x - orbitGlobalBounds.width / 2,
                       sunCenter.y - orbitGlobalBounds.height / 2);
