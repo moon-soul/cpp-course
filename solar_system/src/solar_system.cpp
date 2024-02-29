@@ -30,16 +30,16 @@ SolarSystem::SolarSystem(unsigned int modeWidth, unsigned int modeHeight, const 
     const auto NEPTUNE = std::make_shared<Planet>(FilePath::Assets::NEPTUNE, "NEPTUNE", 24764.f, 4498.25f, 164.8f, 0.f, SUN);
     const auto MOON = std::make_shared<Moon>(FilePath::Assets::MOON, "MOON", 1737.f, 0.3844f, 0.0748f, 0.f, EARTH);
 
-    solarSystemObjects_.emplace_back(SUN);
-    solarSystemObjects_.emplace_back(MERCURY);
-    solarSystemObjects_.emplace_back(VENUS);
-    solarSystemObjects_.emplace_back(EARTH);
-    solarSystemObjects_.emplace_back(MARS);
-    solarSystemObjects_.emplace_back(JUPITER);
-    solarSystemObjects_.emplace_back(SATURN);
-    solarSystemObjects_.emplace_back(URANUS);
-    solarSystemObjects_.emplace_back(NEPTUNE);
-    solarSystemObjects_.emplace_back(MOON);
+    solarSystemObjects_.insert({"SUN", SUN});
+    solarSystemObjects_.insert({"MERCURY", MERCURY});
+    solarSystemObjects_.insert({"VENUS", VENUS});
+    solarSystemObjects_.insert({"EARTH", EARTH});
+    solarSystemObjects_.insert({"MARS", MARS});
+    solarSystemObjects_.insert({"JUPITER", JUPITER});
+    solarSystemObjects_.insert({"SATURN", SATURN});
+    solarSystemObjects_.insert({"URANUS", URANUS});
+    solarSystemObjects_.insert({"NEPTUNE", NEPTUNE});
+    solarSystemObjects_.insert({"MOON", MOON});
 }
 
 void SolarSystem::run()
@@ -79,18 +79,43 @@ void SolarSystem::run()
             }
             else if (event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::C)
             {
-                camera_.transitionTo(solarSystemObjects_[0]);
+                camera_.transitionTo(solarSystemObjects_["SUN"]);
             }
-            else if (event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::Q)
+            else if (event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::Num1)
             {
-                nextToFocusIndex_ = nextToFocusIndex_ > 0 ? --nextToFocusIndex_ : 0;
-                camera_.transitionTo(solarSystemObjects_[nextToFocusIndex_]);
+                camera_.transitionTo(solarSystemObjects_["MERCURY"]);
             }
-            else if (event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::E)
+            else if (event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::Num2)
             {
-                const int last = solarSystemObjects_.size() - 1;
-                nextToFocusIndex_ = nextToFocusIndex_ < last ? ++nextToFocusIndex_ : last;
-                camera_.transitionTo(solarSystemObjects_[nextToFocusIndex_]);
+                camera_.transitionTo(solarSystemObjects_["VENUS"]);
+            }
+            else if (event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::Num3)
+            {
+                camera_.transitionTo(solarSystemObjects_["EARTH"]);
+            }
+            else if (event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::Num4)
+            {
+                camera_.transitionTo(solarSystemObjects_["MARS"]);
+            }
+            else if (event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::Num5)
+            {
+                camera_.transitionTo(solarSystemObjects_["JUPITER"]);
+            }
+            else if (event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::Num6)
+            {
+                camera_.transitionTo(solarSystemObjects_["SATURN"]);
+            }
+            else if (event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::Num7)
+            {
+                camera_.transitionTo(solarSystemObjects_["URANUS"]);
+            }
+            else if (event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::Num8)
+            {
+                camera_.transitionTo(solarSystemObjects_["NEPTUNE"]);
+            }
+            else if (event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::Num0)
+            {
+                camera_.transitionTo(solarSystemObjects_["MOON"]);
             }
         }
         const auto deltaTime = clock.restart().asSeconds();
@@ -99,11 +124,8 @@ void SolarSystem::run()
         window_.clear();
         camera_.applyView();
         window_.draw(background_);
-        for (auto& obj : solarSystemObjects_)
-        {
-            update(deltaTime);
-            obj->draw(window_);
-        }
+        update(deltaTime);
+        draw();
         window_.display();
     }
 }
@@ -112,10 +134,18 @@ void SolarSystem::update(float deltaTime)
 {
     if (not isPaused_)
     {
-        for (auto& obj : solarSystemObjects_)
+        for (auto& [name, obj] : solarSystemObjects_)
         {
             obj->updatePosition(deltaTime, simulationSpeed_);
         }
+    }
+}
+
+void SolarSystem::draw()
+{
+    for (auto& [name, obj] : solarSystemObjects_)
+    {
+        obj->draw(window_);
     }
 }
 

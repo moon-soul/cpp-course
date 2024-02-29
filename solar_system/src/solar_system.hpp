@@ -1,6 +1,6 @@
 #pragma once
 
-#include <vector>
+#include <map>
 
 #include "camera.hpp"
 #include "celestial_body.hpp"
@@ -14,6 +14,7 @@ public:
 
 private:
     void update(float deltaTime);
+    void draw();
     void speedUp();
     void slowDown();
     void togglePause();
@@ -23,8 +24,7 @@ private:
     Camera camera_;
     sf::Texture backgroundTexture_;
     sf::Sprite background_;
-    std::vector<std::shared_ptr<CelestialBody>> solarSystemObjects_;
+    std::map<std::string, std::shared_ptr<CelestialBody>> solarSystemObjects_;
     float simulationSpeed_ = 0.004f;
     bool isPaused_ = false;
-    int nextToFocusIndex_ = -1;
 };
