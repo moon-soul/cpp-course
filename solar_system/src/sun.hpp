@@ -10,8 +10,8 @@ public:
         unsigned int modeWidth,
         unsigned int modeHeight,
         float radius,
-        float distanceFromAttractor,
-        float period,
-        float angle,
-        std::shared_ptr<CelestialBody> attractor);
+        float distanceFromAttractor = 0.f,
+        float period = 0.f,
+        float angle = 0.f,
+        std::shared_ptr<CelestialBody> attractor = nullptr);
 };

@@ -19,7 +19,7 @@ SolarSystem::SolarSystem(unsigned int modeWidth, unsigned int modeHeight, const 
     const auto& windowSize = window_.getSize();
     background_.setTextureRect(sf::IntRect(0, 0, windowSize.x, windowSize.y));
 
-    const auto SUN = std::make_shared<Sun>(FilePath::Assets::SUN, "SUN", modeWidth, modeHeight, 695500.f, 0.f, 0.f, 0.f, nullptr);
+    const auto SUN = std::make_shared<Sun>(FilePath::Assets::SUN, "SUN", modeWidth, modeHeight, 695500.f);
     const auto MERCURY = std::make_shared<Planet>(FilePath::Assets::MERCURY, "MERCURY", 2440.f, 57.91f, 0.2f, 0.f, SUN);
     const auto VENUS = std::make_shared<Planet>(FilePath::Assets::VENUS, "VENUS", 6052.f, 108.21f, 0.6f, 0.f, SUN);
     const auto EARTH = std::make_shared<Planet>(FilePath::Assets::EARTH, "EARTH", 6378.f, 149.6f, 1.f, 0.f, SUN);
