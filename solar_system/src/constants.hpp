@@ -22,6 +22,7 @@ const std::string JUPITER = FilePath::ASSETS + "jupiter.png";
 const std::string SATURN = FilePath::ASSETS + "saturn.png";
 const std::string URANUS = FilePath::ASSETS + "uranus.png";
 const std::string NEPTUNE = FilePath::ASSETS + "neptune.png";
+const std::string SPACECRAFT = FilePath::ASSETS + "spacecraft.png";
 
 } // namespace Assets
 

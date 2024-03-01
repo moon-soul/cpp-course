@@ -54,18 +54,6 @@ void SolarSystem::run()
             {
                 window_.close();
             }
-            else if (event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::Equal)
-            {
-                speedUp();
-            }
-            else if (event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::Dash)
-            {
-                slowDown();
-            }
-            else if (event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::Space)
-            {
-                togglePause();
-            }
             else if (event.type == sf::Event::MouseWheelScrolled)
             {
                 if (event.mouseWheelScroll.delta > 0)
@@ -77,45 +65,83 @@ void SolarSystem::run()
                     camera_.zoom(1.05f);
                 }
             }
-            else if (event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::C)
+            else if (event.type == sf::Event::MouseButtonPressed)
             {
-                camera_.transitionTo(solarSystemObjects_["SUN"]);
+                switch (event.mouseButton.button)
+                {
+                case sf::Mouse::Left:
+                    if (spacecraft_ == nullptr)
+                    {
+                        const auto& pixelPos = sf::Mouse::getPosition(window_);
+                        const auto worldPos = window_.mapPixelToCoords(pixelPos);
+                        spacecraft_ = std::make_shared<Spacecraft>(FilePath::Assets::SPACECRAFT,
+                                                                   solarSystemObjects_,
+                                                                   worldPos.x,
+                                                                   worldPos.y);
+                    }
+                    break;
+                case sf::Mouse::Right:
+                    if (spacecraft_ != nullptr)
+                    {
+                        spacecraft_ = nullptr;
+                    }
+                    break;
+                default:
+                    break;
+                }
             }
-            else if (event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::Num1)
+            else if (event.type == sf::Event::KeyPressed)
             {
-                camera_.transitionTo(solarSystemObjects_["MERCURY"]);
-            }
-            else if (event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::Num2)
-            {
-                camera_.transitionTo(solarSystemObjects_["VENUS"]);
-            }
-            else if (event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::Num3)
-            {
-                camera_.transitionTo(solarSystemObjects_["EARTH"]);
-            }
-            else if (event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::Num4)
-            {
-                camera_.transitionTo(solarSystemObjects_["MARS"]);
-            }
-            else if (event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::Num5)
-            {
-                camera_.transitionTo(solarSystemObjects_["JUPITER"]);
-            }
-            else if (event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::Num6)
-            {
-                camera_.transitionTo(solarSystemObjects_["SATURN"]);
-            }
-            else if (event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::Num7)
-            {
-                camera_.transitionTo(solarSystemObjects_["URANUS"]);
-            }
-            else if (event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::Num8)
-            {
-                camera_.transitionTo(solarSystemObjects_["NEPTUNE"]);
-            }
-            else if (event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::Num0)
-            {
-                camera_.transitionTo(solarSystemObjects_["MOON"]);
+                switch (event.key.code)
+                {
+                case sf::Keyboard::Equal:
+                    speedUp();
+                    break;
+                case sf::Keyboard::Dash:
+                    slowDown();
+                    break;
+                case sf::Keyboard::Space:
+                    togglePause();
+                    break;
+                case sf::Keyboard::C:
+                    camera_.transitionTo(solarSystemObjects_["SUN"]);
+                    break;
+                case sf::Keyboard::V:
+                    if (spacecraft_ != nullptr)
+                    {
+                        camera_.transitionTo(spacecraft_);
+                    }
+                    break;
+                case sf::Keyboard::Num1:
+                    camera_.transitionTo(solarSystemObjects_["MERCURY"]);
+                    break;
+                case sf::Keyboard::Num2:
+                    camera_.transitionTo(solarSystemObjects_["VENUS"]);
+                    break;
+                case sf::Keyboard::Num3:
+                    camera_.transitionTo(solarSystemObjects_["EARTH"]);
+                    break;
+                case sf::Keyboard::Num4:
+                    camera_.transitionTo(solarSystemObjects_["MARS"]);
+                    break;
+                case sf::Keyboard::Num5:
+                    camera_.transitionTo(solarSystemObjects_["JUPITER"]);
+                    break;
+                case sf::Keyboard::Num6:
+                    camera_.transitionTo(solarSystemObjects_["SATURN"]);
+                    break;
+                case sf::Keyboard::Num7:
+                    camera_.transitionTo(solarSystemObjects_["URANUS"]);
+                    break;
+                case sf::Keyboard::Num8:
+                    camera_.transitionTo(solarSystemObjects_["NEPTUNE"]);
+                    break;
+                case sf::Keyboard::Num0:
+                    camera_.transitionTo(solarSystemObjects_["MOON"]);
+                    break;
+                default:
+                    break;
+                }
             }
         }
         const auto deltaTime = clock.restart().asSeconds();
@@ -138,6 +164,10 @@ void SolarSystem::update(float deltaTime)
         {
             obj->updatePosition(deltaTime, simulationSpeed_);
         }
+        if (spacecraft_ != nullptr)
+        {
+            spacecraft_->updatePosition(deltaTime, simulationSpeed_);
+        }
     }
 }
 
@@ -147,12 +177,16 @@ void SolarSystem::draw()
     {
         obj->draw(window_);
     }
+    if (spacecraft_ != nullptr)
+    {
+        spacecraft_->draw(window_);
+    }
 }
 
 void SolarSystem::speedUp()
 {
     constexpr auto maxSimulationSpeed = 0.8f;
-    auto newSimulationSpeed = simulationSpeed_ + 0.001f;
+    auto newSimulationSpeed = simulationSpeed_ + 0.005f;
     newSimulationSpeed = std::min(newSimulationSpeed, maxSimulationSpeed);
     simulationSpeed_ = newSimulationSpeed;
 }
@@ -160,7 +194,7 @@ void SolarSystem::speedUp()
 void SolarSystem::slowDown()
 {
     constexpr auto minSimulationSpeed = -0.8f;
-    auto newSimulationSpeed = simulationSpeed_ - 0.001f;
+    auto newSimulationSpeed = simulationSpeed_ - 0.005f;
     newSimulationSpeed = std::max(newSimulationSpeed, minSimulationSpeed);
     simulationSpeed_ = newSimulationSpeed;
 }

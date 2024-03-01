@@ -19,7 +19,7 @@ public:
     void setScale(float scaleFactor);
     virtual void draw(sf::RenderWindow& window);
 
-    virtual void updatePosition(float deltaTime, float simulationSpeed) = 0; // TODO: spacecraft
+    virtual void updatePosition(float deltaTime, float simulationSpeed) = 0;
 
 protected:
     sf::Texture texture_;

@@ -4,6 +4,7 @@
 
 #include "camera.hpp"
 #include "celestial_body.hpp"
+#include "spacecraft.hpp"
 
 class SolarSystem
 {
@@ -25,6 +26,7 @@ private:
     sf::Texture backgroundTexture_;
     sf::Sprite background_;
     std::map<std::string, std::shared_ptr<CelestialBody>> solarSystemObjects_;
-    float simulationSpeed_ = 0.004f;
+    std::shared_ptr<Spacecraft> spacecraft_ = nullptr;
+    float simulationSpeed_ = 0.005f;
     bool isPaused_ = false;
 };

@@ -16,7 +16,7 @@ void Camera::update()
     if (transitioning_)
     {
         const auto& currentPosition = view_.getCenter();
-        const auto& direction = targetObject_->getCenter() - currentPosition;
+        const auto direction = targetObject_->getCenter() - currentPosition;
         move(direction, transitionSpeed_);
     }
 }
@@ -52,7 +52,7 @@ void Camera::zoom(float factor)
     movementSpeed_ *= factor;
 }
 
-void Camera::transitionTo(std::shared_ptr<CelestialBody> targetObject)
+void Camera::transitionTo(std::shared_ptr<Entity> targetObject)
 {
     targetObject_ = targetObject;
     transitioning_ = true;
@@ -60,7 +60,7 @@ void Camera::transitionTo(std::shared_ptr<CelestialBody> targetObject)
 
 void Camera::move(const sf::Vector2f& direction, float speed)
 {
-    const auto& movement = direction * speed;
+    const auto movement = direction * speed;
     view_.move(movement);
 }
 
