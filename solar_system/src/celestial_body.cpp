@@ -69,6 +69,6 @@ void CelestialBody::updatePosition(float deltaTime, float simulationSpeed)
     const auto halfAttractorX = attractorGlobalBounds.width / 2;
     const auto halfAttractorY = attractorGlobalBounds.height / 2;
 
-    setPosition(attractorCenter.x - globalBounds.width / 2 + cos(radAngle) * (orbitRadius_ + halfAttractorX),
-                attractorCenter.y - globalBounds.height / 2 + sin(radAngle) * (orbitRadius_ + halfAttractorY));
+    setPosition(attractorCenter.x - globalBounds.width / 2 + std::cos(radAngle) * (orbitRadius_ + halfAttractorX),
+                attractorCenter.y - globalBounds.height / 2 + std::sin(radAngle) * (orbitRadius_ + halfAttractorY));
 }

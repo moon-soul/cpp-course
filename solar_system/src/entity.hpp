@@ -13,7 +13,7 @@ public:
     sf::Vector2f getPosition() const;
     sf::FloatRect getGlobalBounds() const;
     sf::Vector2f getCenter() const;
-    const sf::Sprite& getSprite() const;
+    sf::Sprite& getSprite();
     float getScale() const;
     void setPosition(float x, float y);
     void setScale(float scaleFactor);

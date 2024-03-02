@@ -31,7 +31,7 @@ sf::Vector2f Entity::getCenter() const
     return center;
 }
 
-const sf::Sprite& Entity::getSprite() const
+sf::Sprite& Entity::getSprite()
 {
     return sprite_;
 }

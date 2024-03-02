@@ -1,6 +1,7 @@
 #include "spacecraft.hpp"
 
 #include <cmath>
+#include <numbers>
 
 Spacecraft::Spacecraft(const std::string& textureFilePath,
                        const std::map<std::string, std::shared_ptr<CelestialBody>>& solarSystemObjects,
@@ -59,8 +60,13 @@ void Spacecraft::updatePosition(float deltaTime, float simulationSpeed)
     }
 
     velocity_ += totalAcceleration * deltaTime;
+
+    const auto angleRadians = std::atan2(velocity_.y, velocity_.x);
+    const auto angleDegrees = angleRadians * 180.f / std::numbers::pi_v<float>;
+
     const auto newPosition = getPosition() + velocity_;
     setPosition(newPosition.x, newPosition.y);
+    getSprite().setRotation(angleDegrees + 90);
 
     if (++updateCounter_ >= updateInterval_)
     {
