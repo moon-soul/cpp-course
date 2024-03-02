@@ -7,6 +7,7 @@ namespace FilePath
 
 const std::string ROOT = "../";
 const std::string ASSETS = ROOT + "assets/";
+const std::string SOUNDS = ROOT + "sounds/";
 
 namespace Assets
 {
@@ -25,5 +26,12 @@ const std::string NEPTUNE = FilePath::ASSETS + "neptune.png";
 const std::string SPACECRAFT = FilePath::ASSETS + "spacecraft.png";
 
 } // namespace Assets
+
+namespace Sounds
+{
+
+const std::string THEME = FilePath::SOUNDS + "theme.wav";
+
+} // namespace Sounds
 
 } // namespace FilePath

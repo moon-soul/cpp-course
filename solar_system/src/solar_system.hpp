@@ -2,6 +2,8 @@
 
 #include <map>
 
+#include <SFML/Audio.hpp>
+
 #include "camera.hpp"
 #include "celestial_body.hpp"
 #include "spacecraft.hpp"
@@ -25,6 +27,8 @@ private:
     Camera camera_;
     sf::Texture backgroundTexture_;
     sf::Sprite background_;
+    sf::SoundBuffer soundBuffer_;
+    sf::Sound sound_;
     std::map<std::string, std::shared_ptr<CelestialBody>> solarSystemObjects_;
     std::shared_ptr<Spacecraft> spacecraft_ = nullptr;
     float simulationSpeed_ = 0.005f;

@@ -19,27 +19,36 @@ SolarSystem::SolarSystem(unsigned int modeWidth, unsigned int modeHeight, const 
     const auto& windowSize = window_.getSize();
     background_.setTextureRect(sf::IntRect(0, 0, windowSize.x, windowSize.y));
 
-    const auto SUN = std::make_shared<Sun>(FilePath::Assets::SUN, "SUN", modeWidth, modeHeight, 695500.f);
-    const auto MERCURY = std::make_shared<Planet>(FilePath::Assets::MERCURY, "MERCURY", 2440.f, 57.91f, 0.2f, 0.f, SUN);
-    const auto VENUS = std::make_shared<Planet>(FilePath::Assets::VENUS, "VENUS", 6052.f, 108.21f, 0.6f, 0.f, SUN);
-    const auto EARTH = std::make_shared<Planet>(FilePath::Assets::EARTH, "EARTH", 6378.f, 149.6f, 1.f, 0.f, SUN);
-    const auto MARS = std::make_shared<Planet>(FilePath::Assets::MARS, "MARS", 3397.f, 227.94f, 1.9f, 0.f, SUN);
-    const auto JUPITER = std::make_shared<Planet>(FilePath::Assets::JUPITER, "JUPITER", 71492.f, 778.41f, 11.9f, 0.f, SUN);
-    const auto SATURN = std::make_shared<Planet>(FilePath::Assets::SATURN, "SATURN", 60268.f, 1426.73f, 29.5f, 0.f, SUN);
-    const auto URANUS = std::make_shared<Planet>(FilePath::Assets::URANUS, "URANUS", 25559.f, 2870.97f, 84.f, 0.f, SUN);
-    const auto NEPTUNE = std::make_shared<Planet>(FilePath::Assets::NEPTUNE, "NEPTUNE", 24764.f, 4498.25f, 164.8f, 0.f, SUN);
-    const auto MOON = std::make_shared<Moon>(FilePath::Assets::MOON, "MOON", 1737.f, 0.3844f, 0.0748f, 0.f, EARTH);
+    if (not soundBuffer_.loadFromFile(FilePath::Sounds::THEME))
+    {
+        throw std::runtime_error("Failed to load sound from file \"" + FilePath::Sounds::THEME + '\"');
+    }
+    sound_.setBuffer(soundBuffer_);
+    sound_.setLoop(true);
+    sound_.setVolume(5);
+    sound_.play();
 
-    solarSystemObjects_.insert({"SUN", SUN});
-    solarSystemObjects_.insert({"MERCURY", MERCURY});
-    solarSystemObjects_.insert({"VENUS", VENUS});
-    solarSystemObjects_.insert({"EARTH", EARTH});
-    solarSystemObjects_.insert({"MARS", MARS});
-    solarSystemObjects_.insert({"JUPITER", JUPITER});
-    solarSystemObjects_.insert({"SATURN", SATURN});
-    solarSystemObjects_.insert({"URANUS", URANUS});
-    solarSystemObjects_.insert({"NEPTUNE", NEPTUNE});
-    solarSystemObjects_.insert({"MOON", MOON});
+    const auto sun = std::make_shared<Sun>(FilePath::Assets::SUN, "Sun", modeWidth, modeHeight, 695500.f);
+    const auto mercury = std::make_shared<Planet>(FilePath::Assets::MERCURY, "Mercury", 2440.f, 57.91f, 0.2f, 0.f, sun);
+    const auto venus = std::make_shared<Planet>(FilePath::Assets::VENUS, "Venus", 6052.f, 108.21f, 0.6f, 0.f, sun);
+    const auto earth = std::make_shared<Planet>(FilePath::Assets::EARTH, "Earth", 6378.f, 149.6f, 1.f, 0.f, sun);
+    const auto mars = std::make_shared<Planet>(FilePath::Assets::MARS, "Mars", 3397.f, 227.94f, 1.9f, 0.f, sun);
+    const auto jupiter = std::make_shared<Planet>(FilePath::Assets::JUPITER, "Jupiter", 71492.f, 778.41f, 11.9f, 0.f, sun);
+    const auto saturn = std::make_shared<Planet>(FilePath::Assets::SATURN, "Saturn", 60268.f, 1426.73f, 29.5f, 0.f, sun);
+    const auto uranus = std::make_shared<Planet>(FilePath::Assets::URANUS, "Uranus", 25559.f, 2870.97f, 84.f, 0.f, sun);
+    const auto neptune = std::make_shared<Planet>(FilePath::Assets::NEPTUNE, "Neptune", 24764.f, 4498.25f, 164.8f, 0.f, sun);
+    const auto moon = std::make_shared<Moon>(FilePath::Assets::MOON, "Moon", 1737.f, 0.3844f, 0.0748f, 0.f, earth);
+
+    solarSystemObjects_.insert({"Sun", sun});
+    solarSystemObjects_.insert({"Mercury", mercury});
+    solarSystemObjects_.insert({"Venus", venus});
+    solarSystemObjects_.insert({"Earth", earth});
+    solarSystemObjects_.insert({"Mars", mars});
+    solarSystemObjects_.insert({"Jupiter", jupiter});
+    solarSystemObjects_.insert({"Saturn", saturn});
+    solarSystemObjects_.insert({"Uranus", uranus});
+    solarSystemObjects_.insert({"Neptune", neptune});
+    solarSystemObjects_.insert({"Moon", moon});
 }
 
 void SolarSystem::run()
@@ -104,7 +113,7 @@ void SolarSystem::run()
                     togglePause();
                     break;
                 case sf::Keyboard::C:
-                    camera_.transitionTo(solarSystemObjects_["SUN"]);
+                    camera_.transitionTo(solarSystemObjects_["Sun"]);
                     break;
                 case sf::Keyboard::V:
                     if (spacecraft_ != nullptr)
@@ -113,31 +122,31 @@ void SolarSystem::run()
                     }
                     break;
                 case sf::Keyboard::Num1:
-                    camera_.transitionTo(solarSystemObjects_["MERCURY"]);
+                    camera_.transitionTo(solarSystemObjects_["Mercury"]);
                     break;
                 case sf::Keyboard::Num2:
-                    camera_.transitionTo(solarSystemObjects_["VENUS"]);
+                    camera_.transitionTo(solarSystemObjects_["Venus"]);
                     break;
                 case sf::Keyboard::Num3:
-                    camera_.transitionTo(solarSystemObjects_["EARTH"]);
+                    camera_.transitionTo(solarSystemObjects_["Earth"]);
                     break;
                 case sf::Keyboard::Num4:
-                    camera_.transitionTo(solarSystemObjects_["MARS"]);
+                    camera_.transitionTo(solarSystemObjects_["Mars"]);
                     break;
                 case sf::Keyboard::Num5:
-                    camera_.transitionTo(solarSystemObjects_["JUPITER"]);
+                    camera_.transitionTo(solarSystemObjects_["Jupiter"]);
                     break;
                 case sf::Keyboard::Num6:
-                    camera_.transitionTo(solarSystemObjects_["SATURN"]);
+                    camera_.transitionTo(solarSystemObjects_["Saturn"]);
                     break;
                 case sf::Keyboard::Num7:
-                    camera_.transitionTo(solarSystemObjects_["URANUS"]);
+                    camera_.transitionTo(solarSystemObjects_["Uranus"]);
                     break;
                 case sf::Keyboard::Num8:
-                    camera_.transitionTo(solarSystemObjects_["NEPTUNE"]);
+                    camera_.transitionTo(solarSystemObjects_["Neptune"]);
                     break;
                 case sf::Keyboard::Num0:
-                    camera_.transitionTo(solarSystemObjects_["MOON"]);
+                    camera_.transitionTo(solarSystemObjects_["Moon"]);
                     break;
                 default:
                     break;
