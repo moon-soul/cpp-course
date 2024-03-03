@@ -28,7 +28,7 @@ Upon launching the simulator, a dynamically generated solar system is presented,
 ## Technical Systems
 
 ### Class Diagram
-![Class Diagram](/docs/class_diagram.png)
+![Class Diagram](/solar_system/docs/class_diagram.png)
 
 ### Main Modules
 - **Celestial Body**: Manages the appearance, position, and simplified circular orbital mechanics of planets and moons, including their initial positions and trajectories.
@@ -47,7 +47,7 @@ Upon launching the simulator, a dynamically generated solar system is presented,
   - **Focusing**: Numbers 1 to 8 on the keyboard allow to focus on the respective planet in the solar system. Pressing 0 focuses on the Moon, C focuses on the center (the Sun), and V focuses on the spacecraft, if present.
   - **Camera Movement**: The arrow keys allow for manual movement of the camera across the solar system, providing a way to freely explore the space.
   - **Zoom**: The mouse wheel is used to zoom in and out, providing the ability to adjust the view from close-up details to a wide-angle perspective.
-  - **Time Control**: The simulation speed can be paused by pressing the spacebar. The simulation speed can be adjusted by using the = (increase speed) and - (decrease speed) keys, enabling a tailored viewing experience of the solar system dynamics.
+  - **Time Control**: The simulation speed can be paused by pressing the spacebar, and adjusted by using the = (increase speed) and - (decrease speed) keys, enabling a tailored viewing experience of the solar system dynamics.
   - **Spacecraft Management**: Spacecraft can be spawned at the current mouse position by left-clicking, and despawned by right-clicking, providing dynamic interaction with the simulation's navigational component.
 
 ## Compilation
