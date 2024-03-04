@@ -60,8 +60,8 @@ class CelestialBody {
     -equatorialRadius_: float
     -orbitRadius_: float
     -orbitPeriod_: float
-    -currentOrbitAngle_: float = 0.0f
-    -attractor_: std::shared_ptr<CelestialBody> = nullptr
+    -currentOrbitAngle_: float
+    -attractor_: std::shared_ptr<CelestialBody>
     +CelestialBody(textureFilePath: const std::string&, name: const std::string&, radius: float, distanceFromAttractor: float, period: float, angle: float, attractor: std::shared_ptr<CelestialBody>)
     +getSize(): float
     +draw(window: sf::RenderWindow&): void
