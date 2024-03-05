@@ -67,3 +67,6 @@ Ensure that SFML is installed and linked correctly when compiling the simulator,
 
 ## License
 The project is licensed under the MIT License - see the LICENSE file for details.
+
+## Simulator Demo
+[![Simulator Demo](https://img.youtube.com/vi/o8k9qp7oz10/hqdefault.jpg)](https://www.youtube.com/embed/o8k9qp7oz10)
