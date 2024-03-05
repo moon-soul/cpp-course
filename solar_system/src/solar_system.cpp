@@ -23,6 +23,7 @@ SolarSystem::SolarSystem(unsigned int modeWidth, unsigned int modeHeight, const 
     {
         throw std::runtime_error("Failed to load sound from file \"" + FilePath::Sounds::THEME + '\"');
     }
+    // window_.setFramerateLimit(60);
     sound_.setBuffer(soundBuffer_);
     sound_.setLoop(true);
     sound_.setVolume(5);
