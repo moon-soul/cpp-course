@@ -1,0 +1,131 @@
+@startuml Solar System
+
+class SolarSystem {
+    -window_: sf::RenderWindow
+    -camera_: Camera
+    -solarSystemObjects: std::map<std::string, std::shared_ptr<CelestialBody>>
+    -spacecraft: Spacecraft
+    -backgroundTexture_: sf::Texture
+    -background_: sf::Sprite
+    -soundBuffer_: sf::SoundBuffer
+    -sound_: sf::Sound
+    -simulationSpeed_: float = 0.005f
+    -isPaused_: bool = false
+    +SolarSystem(modeWidth: unsigned int, modeHeight: unsigned int, windowName: const std::string&)
+    +run(): void
+    -update(deltaTime: float): void
+    -draw(): void
+    -speedUp(): void
+    -slowDown(): void
+    -togglePause(): void
+    -updateBackgroundToFillView(view: const sf::View&): void
+}
+
+class Camera {
+    -window_: sf::RenderWindow&
+    -view_: sf::View
+    -zoomLevel_: float = 1.0f
+    -targetObject_: std::shared_ptr<Entity> = nullptr
+    -transitioning_: bool = false
+    -transitionSpeed_: float = 0.05f
+    -movementSpeed_: float = 0.1f
+    +Camera(window: sf::RenderWindow&)
+    +update(): void
+    +applyView(): void
+    +getView(): const sf::View&
+    +zoom(factor: float): void
+    +transitionTo(targetObject: std::shared_ptr<Entity>): void
+    -move(direction: const sf::Vector2f&, speed: float): void
+    -handleMovement(): void
+}
+
+class Entity {
+    #texture_: sf::Texture
+    #sprite_: sf::Sprite
+    +Entity(textureFilePath: const std::string&)
+    +getPosition(): sf::Vector2f
+    +getGlobalBounds(): sf::FloatRect
+    +getCenter(): sf::Vector2f
+    +getSprite(): sf::Sprite&
+    +setScale(scaleFactor: float): void
+    +setPosition(x: float, y: float): void
+    +draw(window: sf::RenderWindow&): void
+    {abstract}
+    +updatePosition(deltaTime: float, simulationSpeed: float): void
+    {abstract}
+}
+
+class CelestialBody {
+    -name_: std::string
+    -equatorialRadius_: float
+    -orbitRadius_: float
+    -orbitPeriod_: float
+    -currentOrbitAngle_: float
+    -attractor_: std::shared_ptr<CelestialBody>
+    +CelestialBody(textureFilePath: const std::string&, name: const std::string&, radius: float, distanceFromAttractor: float, period: float, angle: float, attractor: std::shared_ptr<CelestialBody>)
+    +getSize(): float
+    +draw(window: sf::RenderWindow&): void
+    +updatePosition(deltaTime: float, simulationSpeed: float): void
+}
+
+class Planet {
+    +Planet(
+        textureFilePath: const std::string&,
+        name: const std::string&,
+        radius: float,
+        distanceFromSun: float,
+        period: float,
+        angle: float,
+        attractor: std::shared_ptr<CelestialBody>
+    )
+}
+
+class Moon {
+    +Moon(
+        textureFilePath: const std::string&,
+        name: const std::string&,
+        radius: float,
+        distanceFromPlanet: float,
+        period: float,
+        angle: float,
+        attractor: std::shared_ptr<CelestialBody>
+    )
+}
+
+class Sun {
+    +Sun(
+        textureFilePath: const std::string&,
+        name: const std::string&,
+        modeWidth: unsigned int,
+        modeHeight: unsigned int,
+        radius: float,
+        distanceFromAttractor: float = 0.0f,
+        period: float = 0.0f,
+        angle: float = 0.0f,
+        attractor: std::shared_ptr<CelestialBody> = nullptr
+    )
+}
+
+class Spacecraft {
+    -solarSystemObjects_: std::map<std::string, std::shared_ptr<CelestialBody>>&
+    -velocity_: sf::Vector2f = {0.0f, 0.0f}
+    -trailPoints_: std::deque<sf::Vector2f>
+    -maxTrailLength_: unsigned int = 1000
+    -updateInterval_: unsigned int = 100
+    -updateCounter_: uint16_t = 0
+    +Spacecraft(textureFilePath: const std::string&, solarSystemObjects: const std::map<std::string, std::shared_ptr<CelestialBody>>&, x: float, y: float)
+    +draw(window: sf::RenderWindow&): void
+    +updatePosition(deltaTime: float, simulationSpeed: float): void
+}
+
+Entity <|-- CelestialBody
+CelestialBody <|-- Planet
+CelestialBody <|-- Moon
+CelestialBody <|-- Sun
+Entity <|-- Spacecraft
+
+SolarSystem *-- "1" Camera : contains
+SolarSystem *-- "*" CelestialBody : contains
+SolarSystem *-- "1" Spacecraft : contains
+
+@enduml
